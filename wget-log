@@ -1,0 +1,23 @@
+--2024-03-04 23:02:59--  https://github.com/sharkdp/vivid/releases/download/v0.8.0/vivid_0.8.0_amd64.deb
+Resolving github.com (github.com)... 20.205.243.166
+Connecting to github.com (github.com)|20.205.243.166|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://objects.githubusercontent.com/github-production-release-asset-2e65be/158295285/a47dcb86-7704-454c-afa7-8ebef08cd85e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240304%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240304T160259Z&X-Amz-Expires=300&X-Amz-Signature=4d279e550d71b3b39282b6d89eb507f88e24e83ec8b6fe5e7f70a22b05d749a1&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=158295285&response-content-disposition=attachment%3B%20filename%3Dvivid_0.8.0_amd64.deb&response-content-type=application%2Foctet-stream [following]
+--2024-03-04 23:03:00--  https://objects.githubusercontent.com/github-production-release-asset-2e65be/158295285/a47dcb86-7704-454c-afa7-8ebef08cd85e?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240304%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240304T160259Z&X-Amz-Expires=300&X-Amz-Signature=4d279e550d71b3b39282b6d89eb507f88e24e83ec8b6fe5e7f70a22b05d749a1&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=158295285&response-content-disposition=attachment%3B%20filename%3Dvivid_0.8.0_amd64.deb&response-content-type=application%2Foctet-stream
+Resolving objects.githubusercontent.com (objects.githubusercontent.com)... 185.199.111.133, 185.199.110.133, 185.199.108.133, ...
+Connecting to objects.githubusercontent.com (objects.githubusercontent.com)|185.199.111.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 367396 (359K) [application/octet-stream]
+Saving to: ‘vivid_0.8.0_amd64.deb’
+
+     0K .......... .......... .......... .......... .......... 13% 1.13M 0s
+    50K .......... .......... .......... .......... .......... 27% 1.27M 0s
+   100K .......... .......... .......... .......... .......... 41% 5.29M 0s
+   150K .......... .......... .......... .......... .......... 55% 7.01M 0s
+   200K .......... .......... .......... .......... .......... 69% 2.05M 0s
+   250K .......... .......... .......... .......... .......... 83% 8.34M 0s
+   300K .......... .......... .......... .......... .......... 97% 10.8M 0s
+   350K ........                                              100% 9.75M=0.1s
+
+2024-03-04 23:03:01 (2.64 MB/s) - ‘vivid_0.8.0_amd64.deb’ saved [367396/367396]
+
