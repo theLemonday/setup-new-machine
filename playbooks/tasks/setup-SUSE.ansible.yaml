@@ -1,0 +1,20 @@
+---
+- name: Install common OpenSUSE packages
+  community.general.zypper:
+    pkg:
+      - neovim
+      - gcc
+      - fish
+      - ripgrep
+      - unzip
+      - fzf
+      - bat
+      - make
+      - fd
+      - chezmoi
+      - go
+  become: true
+
+- name: Add lazygit repo
+  community.general.zypper_repository:
+    repo: https://download.opensuse.org/repositories/devel:/languages:/go/openSUSE_Factory/devel:languages:go.repo

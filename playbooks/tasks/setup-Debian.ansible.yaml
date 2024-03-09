@@ -1,0 +1,98 @@
+---
+- name: Add neovim unstable repository from PPA and install its signing key on Ubuntu target
+  ansible.builtin.apt_repository:
+    repo: ppa:neovim-ppa/unstable
+  become: true
+
+- name: Get latest neovim
+  ansible.builtin.apt:
+    name: neovim
+    state: latest
+  become: true
+
+- name: Check if lazygit installed
+  shell: command -v lazygit >/dev/null 2>&1
+  register: is_lazygit_exist
+  ignore_errors: true
+
+- name: Install lazygit
+  ansible.builtin.script: scripts/i_lazygit.sh
+  become: true
+  when: is_lazygit_exist.rc == 127
+
+- name: Install common packages
+  ansible.builtin.apt:
+    pkg:
+      - gcc
+      - g++
+      - fish
+      - ripgrep
+      - unzip
+      - fzf
+      - bat
+      - make
+  become: true
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "~/.local/bin"
+    state: directory
+    mode: "0700"
+
+- name: Check if fd installed
+  shell: command -v fd >/dev/null 2>&1
+  register: is_fd_exist
+  ignore_errors: true
+
+- name: Install fd
+  ansible.builtin.apt:
+    name: fd-find
+    state: latest
+  become: true
+  when: is_fd_exist.rc == 127
+
+- name: Create symlink from fdfind to fd
+  ansible.builtin.file:
+    src: /usr/bin/fdfind
+    dest: ~/.local/bin/fd
+    state: link
+  when: is_fd_exist.rc == 127
+
+- name: Create symlink from batcat to cat
+  ansible.builtin.file:
+    src: /usr/bin/batcat
+    dest: ~/.local/bin/cat
+    state: link
+  when: is_fd_exist.rc == 127
+
+- name: Check if chezmoi installed
+  shell: command -v chezmoi >/dev/null 2>&1
+  register: is_chezmoi_exist
+  ignore_errors: true
+
+- name: Install chezmoi
+  ansible.builtin.script: scripts/i_chezmoi.sh
+  when: is_chezmoi_exist.rc == 127
+
+- name: Change default shell to fish if it's currently not
+  ansible.builtin.script: scripts/change_default_shell_to_fish.sh {{ lookup('env', 'USER')}}
+  become: true
+
+- name: Check if vivid installed
+  shell: command -v vivid >/dev/null 2>&1
+  register: is_vivid_exist
+  ignore_errors: true
+
+- name: Install vivid
+  ansible.builtin.script: scripts/i_vivid.sh
+  become: true
+  when: is_vivid_exist.rc == 127
+
+- name: Check if go installed
+  shell: command -v go >/dev/null 2>&1
+  register: is_go_exist
+  ignore_errors: true
+
+- name: Install go
+  ansible.builtin.script: scripts/i_go.sh
+  when: is_go_exist.rc == 127

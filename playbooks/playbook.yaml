@@ -1,0 +1,23 @@
+- name: Machine setup
+  hosts: localhost
+  tasks:
+    - name: Include OS-specific setup tasks
+      ansible.builtin.include_tasks: setup-{{ ansible_os_family }}.ansible.yaml
+
+    - name: Check if fnm installed
+      shell: command -v fnm >/dev/null 2>&1
+      register: is_fnm_exist
+      ignore_errors: true
+
+    - name: Install fnm
+      ansible.builtin.script: scripts/i_fnm.sh
+      when: is_fnm_exist.rc == 127
+
+    - name: Install nodejs lastest
+      ansible.builtin.shell: fnm install --lts
+      args:
+        executable: /usr/bin/fish
+
+    - name: Change default shell to fish if it's currently not
+      ansible.builtin.script: scripts/change_default_shell_to_fish.sh {{ lookup('env', 'USER')}}
+      become: true
