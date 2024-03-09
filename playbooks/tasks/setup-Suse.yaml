@@ -13,8 +13,18 @@
       - fd
       - chezmoi
       - go
+      - python312-pip
+      - thefuck
   become: true
 
 - name: Add lazygit repo
   community.general.zypper_repository:
     repo: https://download.opensuse.org/repositories/devel:/languages:/go/openSUSE_Factory/devel:languages:go.repo
+    auto_import_keys: true
+    runrefresh: true
+  become: true
+
+- name: Install lazygit
+  community.general.zypper:
+    name: lazygit
+  become: true

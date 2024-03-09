@@ -1,23 +1,43 @@
 - name: Machine setup
   hosts: localhost
+  vars:
+    default_shell: zsh
   tasks:
     - name: Include OS-specific setup tasks
-      ansible.builtin.include_tasks: setup-{{ ansible_os_family }}.ansible.yaml
+      ansible.builtin.include_tasks: tasks/setup-{{ ansible_os_family }}.yaml
 
-    - name: Check if fnm installed
-      shell: command -v fnm >/dev/null 2>&1
-      register: is_fnm_exist
+    - name: Change default shell to zsh if it's currently not
+      ansible.builtin.script: scripts/change_default_shell_to_zsh.sh {{ lookup('env', 'USER')}}
+      become: true
+
+    - name: Check if rustup installed
+      shell: command -v rustup >/dev/null 2>&1
+      register: is_rustup_exist
+      args:
+        executable: /usr/bin/{{default_shell}}
       ignore_errors: true
 
-    - name: Install fnm
-      ansible.builtin.script: scripts/i_fnm.sh
-      when: is_fnm_exist.rc == 127
-
-    - name: Install nodejs lastest
-      ansible.builtin.shell: fnm install --lts
+    - name: Install rustup
+      ansible.builtin.shell: "curl https://sh.rustup.rs -sSf | sh -s -- -y"
+      when: is_rustup_exist.rc == 1
       args:
-        executable: /usr/bin/fish
+        executable: /bin/sh
 
-    - name: Change default shell to fish if it's currently not
-      ansible.builtin.script: scripts/change_default_shell_to_fish.sh {{ lookup('env', 'USER')}}
-      become: true
+    - name: Install antidote
+      ansible.builtin.git:
+        repo: https://github.com/mattmc3/antidote.git
+        dest: ~/.antidote/
+        depth: 1
+
+    - name: Install common packages from cargo
+      community.general.cargo:
+        name:
+          - vivid
+          - fnm
+          - tealdeer
+          - eza
+
+    - name: Install pure prompt
+      ansible.builtin.git:
+        repo: https://github.com/sindresorhus/pure.git
+        dest: ~/.zsh/pure
