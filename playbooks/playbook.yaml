@@ -41,3 +41,18 @@
       ansible.builtin.git:
         repo: https://github.com/sindresorhus/pure.git
         dest: ~/.zsh/pure
+
+    - name: Run install gopass task
+      ansible.builtin.include_tasks: tasks/i-gopasspw.yaml
+
+    - name: Check if lazygit installed
+      shell: command -v lazygit >/dev/null 2>&1
+      register: is_lazygit_exist
+      args:
+        executable: /usr/bin/{{default_shell}}
+      ignore_errors: true
+
+    - name: Install lazygit
+      ansible.builtin.command:
+        cmd: go install github.com/jesseduffield/lazygit@latest
+      become: true

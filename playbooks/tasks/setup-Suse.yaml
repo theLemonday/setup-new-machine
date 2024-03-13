@@ -24,7 +24,3 @@
     runrefresh: true
   become: true
 
-- name: Install lazygit
-  community.general.zypper:
-    name: lazygit
-  become: true

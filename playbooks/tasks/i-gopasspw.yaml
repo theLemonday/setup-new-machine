@@ -1,0 +1,22 @@
+---
+- name: Install gpg, git on OpenSUSE
+  community.general.zypper:
+    pkg:
+      - gpg
+      - git
+      - go
+  become: true
+  when: ansible_os_family == "Suse"
+
+- name: Check if gopass installed
+  ansible.builtin.shell: command -v gopass >/dev/null 2>&1
+  register: is_gopass_exist
+  args:
+    executable: /usr/bin/{{ default_shell }}
+  ignore_errors: true
+  changed_when: false
+
+- name: Install gopasspw
+  ansible.builtin.command:
+    cmd: go install github.com/gopasspw/gopass@latest
+  changed_when: is_gopass_exist == 1
